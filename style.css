@@ -1,1 +1,93 @@
+* {box-sizing: border-box;}
 
+:root {
+       --primaryColor: rgb(52, 78, 206);
+       --secondaryColor: rgb(36, 157, 255);
+}
+
+body {
+       margin: 0;
+}
+
+header {
+       position: relative;
+       width: 100%;
+       height: 80px;
+       background: var(--primaryColor);
+}
+
+header h1, header .create, header .closeTask {
+       color: white;
+}
+
+header h1 {
+       margin: 0;
+       text-align: center;
+       font-size: 40px;
+       font-family: 'Courier New', Courier, monospace;
+       padding: 15px 0;
+}
+
+header .create, header .closeTask { /* Centering elements*/
+       position: absolute;
+       top: 50%;
+       transform: translateY(-50%);
+}
+
+header .create {
+       right: 20px;
+       padding: 11px 17px;
+       font-size: 15px;
+       font-weight: bold;
+       background: var(--secondaryColor);
+       border: 3px solid white;
+       border-radius: 18px;
+       cursor: pointer;
+       transition: 0.2s;
+       user-select: none;
+       z-index: 1;
+}
+
+header .create:active, header .closeTask:active {transition: none; background: cyan;}
+
+header .create:hover {
+       color: rgb(240, 240, 240);
+       box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+header .create i {margin-right: 7px;}
+
+header .closeTask {
+       font-size: 35px;
+       right: 55px;
+       cursor: pointer;
+       border: 2px solid white;
+       border-radius: 10px;
+       padding: 0 6px;
+       background: var(--secondaryColor);
+}
+
+header .closeTask:hover {box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);}
+
+section > :not(.active) {
+       display: none;
+}
+
+section .empty {
+       display: flex;
+       flex-flow: column nowrap;
+       align-items: center;
+       color: rgb(150, 150, 150);
+       position: absolute;
+       left: 50%;
+       top: 50%;
+       transform: translate(-50%, -50%);
+       font-size: 25px;
+       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+section .empty img {
+       filter: invert(68%) sepia(8%) saturate(251%) hue-rotate(201deg) brightness(88%) contrast(87%);
+       width: 80px;
+       height: 100px;
+}
