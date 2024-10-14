@@ -1,31 +1,72 @@
 const taskList = document.querySelector(".taskBody .taskList");
+const createButton = document.querySelector("header .create");
+const closeTaskButton = document.querySelector("header .closeTask");
 const emptyList = document.querySelector(".taskBody .empty");
 const checkmarks = document.querySelectorAll(".taskBody .taskList .task .checkmark");
-const tasks = document.querySelectorAll(".taskBody .taskList .task");
+const taskInfo = document.querySelectorAll(".taskBody .taskList .task .taskInfo");
 const taskDetails = document.querySelector(".taskBody .taskDetails");
-const taskDetailTitleText = document.querySelector(".taskBody .taskDetails .taskTitle .text");
-const taskDetailDescText = document.querySelector(".taskBody .taskDetails .taskDesc .text");
-const taskDetailDeadlineText = document.querySelector(".taskBody .taskDetails .deadline .text");
-let ACTIVE_SCREEN = taskList;
+const screens = {"taskList": taskList, "emptyList": emptyList, "taskDetails": taskDetails};
 
-document.addEventListener("keydown", (event) => {
-       if (event.key == "k") {
-              emptyList.classList.add("active");
-              ACTIVE_SCREEN.classList.remove("active");
+class Screen {
+       constructor(screenManager, screenElem, name) {
+              this.screenManager = screenManager;
+              this.screenElem = screenElem;
+              this.name = name;
        }
-});
+
+       display() {
+              this.screenElem.classList.add("active");
+       }
+
+       hide() {
+              this.screenElem.classList.remove("active");
+       }
+}
+
+class ScreenManager {
+       constructor(screens) {
+              const screenObjKeys = Object.keys(screens);
+              this.screens = {};
+
+              for (let i of screenObjKeys) {
+                     this.screens[i] = new Screen(this, screens[i], i);
+              }
+
+              this.activeScreen = this.screens["emptyList"];
+              this.previousScreen;
+
+              this.activeScreen.display();
+       }
+
+       changeTo(screen) {
+              const screenObj = this.screens[screen];
+
+              this.activeScreen.hide();
+              screenObj.display();
+
+              this.previousScreen = this.activeScreen;
+              this.activeScreen = screenObj;
+       }
+}
+
+class Task {
+       constructor(taskManager, taskElem) {
+              this.taskManager = taskManager;
+              this.taskElem = taskElem;
+       }
+}
+
+class TaskManager {
+       constructor(screenManager) {
+              this.screenManager = screenManager;
+              this.tasks = [];
+
+              this.screenManager.changeTo("taskList");
+       }
+}
 
 function taskToggle(task) {
        task.classList.toggle("check");
-}
-
-function viewDetails(task) {
-       taskDetailTitleText.textContent = "Check";
-       taskDetailDescText.textContent = "Description";
-       taskDetailDeadlineText.textContent = "Moay";
-
-       taskDetails.classList.add("active");
-       ACTIVE_SCREEN.classList.remove("active");
 }
 
 checkmarks.forEach(elem => {
@@ -34,8 +75,26 @@ checkmarks.forEach(elem => {
        });
 });
 
-tasks.forEach(elem => {
+const screenManager = new ScreenManager(screens);
+const taskManager = new TaskManager(screenManager);
+
+taskInfo.forEach(elem => {
        elem.addEventListener("click", () => {
-              viewDetails(elem);
+              const task = elem.parentElement;
+              const _taskDetails = screenManager.screens["taskDetails"].screenElem;
+              const taskTitle = _taskDetails.querySelector(".taskTitle .text");
+              const taskDesc = _taskDetails.querySelector(".taskDesc .text");
+              const taskDeadline = _taskDetails.querySelector(".deadline .text");
+
+              createButton.classList.add("hidden");
+              closeTaskButton.classList.add("active");
+              screenManager.changeTo("taskDetails");
+              //code for checking the task info from the database
        });
+});
+
+closeTaskButton.addEventListener("click", () => {
+       screenManager.changeTo(screenManager.previousScreen.name);
+       createButton.classList.remove("hidden");
+       closeTaskButton.classList.remove("active");
 });
