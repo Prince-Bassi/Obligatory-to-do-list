@@ -1,3 +1,5 @@
+import Components from "./components";
+
 const taskList = document.querySelector(".taskBody .taskList");
 const createButton = document.querySelector("header .create");
 const closeTaskButton = document.querySelector("header .closeTask");
@@ -50,7 +52,7 @@ class ScreenManager {
 }
 
 class Task {
-       constructor(taskManager, taskElem) {
+       constructor(taskManager, taskElem, ) {
               this.taskManager = taskManager;
               this.taskElem = taskElem;
        }
@@ -61,7 +63,21 @@ class TaskManager {
               this.screenManager = screenManager;
               this.tasks = [];
 
+              fetch("/getTasks", {
+                     method: "GET"
+              })
+              .then(response => response.json())
+              .then (data => {
+                     // this.tasks = new Task();
+                     taskList.appendChild(Components.createTask(data[0]));
+              });
+
               this.screenManager.changeTo("taskList");
+       }
+
+
+       addTask() {
+              
        }
 }
 
