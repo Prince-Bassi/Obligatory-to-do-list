@@ -1,0 +1,80 @@
+/* ----------------------------HEADER---------------------------- */
+
+header {
+       position: sticky;
+       top: 0;
+       width: 100%;
+       height: var(--headerHeight);
+       background: var(--primaryColor);
+       z-index: 2;
+}
+
+header h1 {
+       margin: 0;
+       text-align: center;
+       font-size: 40px;
+       font-family: 'Courier New', Courier, monospace;
+       padding: 15px 0;
+}
+
+/* ----------------------------CREATE BUTTON---------------------------- */
+
+header .create {
+       right: 20px;
+       padding: 11px 17px;
+       font-size: 15px;
+       font-weight: bold;
+       background: var(--secondaryColor);
+       border: 3px solid white;
+       border-radius: 18px;
+       -webkit-user-select: none;
+       user-select: none;
+       z-index: 1;
+}
+
+header .create:hover {
+       color: rgb(240, 240, 240);
+       box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+header .create.hidden {
+       opacity: 0;
+       transform: translate(7px, -50%);
+       pointer-events: none;
+}
+
+header .create i {margin-right: 7px;}
+
+/* ----------------------------CLOSE TASK BUTTON---------------------------- */
+
+header .closeTask {
+       font-size: 35px;
+       right: 55px;
+       border: 2px solid white;
+       border-radius: 10px;
+       padding: 0 6px;
+       background: var(--secondaryColor);
+       opacity: 0;
+       transform: translate(7px, -50%);
+}
+
+header .closeTask.active {
+       transform: translate(0, -50%);
+       opacity: 1;
+}
+
+header .closeTask:hover {box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);}
+
+/* -----------------------COMMON----------------------- */
+
+header .create:active, header .closeTask:active {transition: none; background: cyan;}
+
+header, header .create {color: white;}
+
+header .create, header .closeTask {
+       position: absolute;
+       top: 50%;
+       transform: translateY(-50%);
+       transition: color 0.2s, box-shadow 0.2s, opacity 0.4s, transform 0.3s;
+       cursor: pointer;
+}

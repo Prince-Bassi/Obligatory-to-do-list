@@ -1,6 +1,7 @@
-const http = require("http");
-const url = require("url");
-const fs = require("fs");
+const express = require("express");
+const path = require("path");
+const app = express();
+const PORT = 8080;
 const mysql = require("mysql");
 
 const db = mysql.createConnection({
@@ -12,62 +13,31 @@ const db = mysql.createConnection({
 
 // db.query("INSERT INTO tasks (title, description, deadline) VALUES ('Complete Project', 'Finish coding the task manager and add features like a to-do list, task description, and due dates.', '2024-12-31');");
 
-function throwError(err, statusCode, res, resType) {
-       let message = err.message;
-       if (resType === "application/json") {
-              message = JSON.stringify(message);
-       }
+app.use(express.static(path.join(__dirname, 'ProjectFiles')));
 
-       res.writeHead(statusCode, {"Content-Type": resType});
-       res.write(err.message);
-       return res.end();
-}
+app.get("/", (req, res) => {
+       res.sendFile(path.join(__dirname, 'ProjectFiles/Layouts', 'index.html'));
+});
 
-function serveFile(filePath, fileType, res) {
-       fs.readFile(filePath, (err, data) => {
-              if (err) return throwError(Error(`Failed to read file '${filePath}'`), 404, res, "text/html");
-
-              res.writeHead(200, {"Content-Type": fileType});
-              res.write(data);
-              return res.end();    
-       });
-}
-
-function returnTaskList(res) {
+function returnTaskList(req, res, next) {
        db.query("select * from tasks;", (err, result, fields) => {
-              if (err) return throwError(err, 500, res, "application/json");
+              if (err) next(new Error(err.message));
 
-              res.writeHead(200, {"Content-Type": "application/json"});
-              res.write(JSON.stringify(result));
-              return res.end();
+              res.status(200).json(result);
        });
 }
 
-http.createServer((req, res) => {
-       const parsedURL = url.parse(req.url, true);
-       const pathName = parsedURL.pathname;
+app.get("/getTasks", (req, res, next) => {
+       returnTaskList(req, res, next);
+});
 
-       switch (pathName) {
-              case "/":
-                     serveFile("index.html", "text/html", res);
-                     break;
-              case "/emptyIcon.svg":
-                     serveFile("emptyIcon.svg", "image/svg+xml", res);
-                     break;
-              case "/style.css":
-                     serveFile("style.css", "text/css", res);
-                     break;
-              case "/script.js":
-                     serveFile("script.js", "application/javascript", res);
-                     break;
-              case "/components":
-                     serveFile("components.js", "application/javascript", res);
-                     break;
-              case "/getTasks":
-                     returnTaskList(res);
-                     break;
-              default:
-                     throwError(Error("Route not found"), 404, res, "text/html");
-       }
+app.use((err, req, res, next) => {
+       console.error(err);
+       res.status(err.statusCode || 500).send(err.message || "Something unexpected happened");
+});
 
-}).listen(8080);
+app.listen(PORT, (err) => {
+       if (err) throw err;
+
+       console.log("Runnnig on", PORT);
+});

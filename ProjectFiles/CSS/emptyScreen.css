@@ -1,0 +1,24 @@
+.taskBody .active {
+       transition: opacity var(--screenTransitionTime);
+}
+
+.taskBody .empty {
+       display: flex;
+       flex-flow: column nowrap;
+       align-items: center;
+       color: rgb(150, 150, 150);
+       position: absolute;
+       left: 50%;
+       top: 50%;
+       transform: translate(-50%, -50%);
+       font-size: 25px;
+       font-family: var(--fontFamily);
+       -webkit-user-select: none;
+       user-select: none;
+}
+
+.taskBody .empty img {
+       filter: invert(68%) sepia(8%) saturate(251%) hue-rotate(201deg) brightness(88%) contrast(87%);
+       width: 80px;
+       height: 100px;
+}
