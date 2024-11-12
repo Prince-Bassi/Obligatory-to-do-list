@@ -1,7 +1,3 @@
-.taskBody .active {
-       transition: opacity var(--screenTransitionTime);
-}
-
 .taskBody .empty {
        display: flex;
        flex-flow: column nowrap;

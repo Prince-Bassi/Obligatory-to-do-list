@@ -1,0 +1,119 @@
+:root {
+       --taskSepColor: rgb(200, 200, 200);
+}
+
+/* ----------------------TASK LIST---------------------- */
+
+.taskList {
+       flex-flow: column nowrap;
+       margin-left: calc(var(--leftIndent) + 3px);
+       width: calc(100% - var(--leftIndent) - 3px);
+}
+
+/* ----------------------TASK---------------------- */
+
+.task {
+       border-bottom: 2px solid var(--taskSepColor);
+       color: var(--primaryColor);
+       -webkit-user-select: none;
+       user-select: none;
+}
+
+/* ----------------------TASK INFO---------------------- */
+
+.task .taskInfo {
+       --hoverColor: black;
+
+       font-family: var(--fontFamily);
+       font-weight: 500;
+       height: 100%;
+       padding: 20px 30px;
+       transition: color 0.5s, background 0.2s, font-size 0.4s;
+}
+
+.task.check .taskInfo {--hoverColor: var(--checkedColor);} /* TASK INFO WHEN CHECKED */
+
+.task .taskInfo:hover { /* TASK INFO HOVER EFFECT */
+       background: rgb(220, 220, 220);
+       border-radius: 15px;
+       color: var(--hoverColor);
+}
+
+/* ----------------------CHECKMARK---------------------- */
+
+.checkmark {
+       --size: 28px;
+       --transitionTime: 0.5s;
+
+       align-items: center;
+       justify-content: center;
+       left: -14px;
+       transform: translateY(-50%);
+       width: var(--size);
+       height: var(--size);
+       background: var(--secondaryColor);
+       overflow: hidden;
+}
+
+.checkmark .innerCircle {
+       width: calc(var(--size) - 8px);
+       height: calc(var(--size) - 8px);
+       background: white;
+       z-index: 1;
+}
+
+.checkmark .checkOverlay {
+       width: inherit;
+       height: inherit;
+       background: inherit;
+}
+
+.checkmark i {color: white;}
+
+.task.check .innerCircle {transform: scale(0, 0);}
+
+.task.check .checkOverlay {animation: checkOverlayAnim 0.3s ease-out 0.5s forwards;}
+
+@keyframes checkOverlayAnim {
+       0% {transform: translateX(0);}
+       100% {transform: translateX(100%);}
+}
+
+/* ----------------------TASK TITLE---------------------- */
+
+.task .taskTitle {display: inline-block;}
+
+/* ----------------------CHECK ANIMATION LINE---------------------- */
+
+.task .taskTitle::before {
+       content: "";
+       transform: translateY(-50%) scaleX(0);
+       transform-origin: left;
+       height: 0.5px;
+       background: var(--checkedColor);
+       transition: transform 0.3s ease-in-out;
+}
+
+.task.check {color: var(--checkedColor);}
+
+.task.check .taskTitle::before {transform: translateY(-50%) scaleX(1);}
+
+/* ----------------------COMMON---------------------- */
+
+.taskList, .checkmark {display: flex;}
+
+.task, .task .taskTitle {position: relative;}
+
+.task, .checkmark {cursor: pointer;}
+
+.task .taskInfo, .task .taskTitle::before {width: 100%;}
+
+.task .taskInfo:hover, .checkmark i {font-size: 20px;}
+
+.checkmark, .checkmark .checkOverlay, .checkmark i, .task .taskTitle::before {position: absolute;}
+
+.checkmark, .task .taskTitle::before {top: 50%;}
+
+.checkmark, .checkmark .innerCircle {border-radius: 100%;}
+
+.checkmark .innerCircle, .checkmark i {transition: var(--transitionTime);}
