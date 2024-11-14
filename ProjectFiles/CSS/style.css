@@ -14,10 +14,6 @@ body {
        overflow-x: hidden;
 }
 
-.taskBody .empty, .taskBody .taskList, .taskBody .active {
-       transition: opacity var(--screenTransitionTime);
-}
-
 .taskBody .taskList .decorLine, .taskBody .taskDetails .decorLine {
        background: var(--primaryColor);
        height: calc(100% - var(--headerHeight));

@@ -2,6 +2,7 @@ class Task {
        constructor(elem, taskData, taskManager) {
               this.initialTaskData = taskData;
               this.taskData = taskData;
+              this.id = this.taskData.id;
 
               this.taskManager = taskManager;
               this.elem = elem;

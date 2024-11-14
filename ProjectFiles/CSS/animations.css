@@ -1,0 +1,19 @@
+.fadeIn {
+       will-change: opacity;
+       animation: fadeInAnim var(--animationDuration) ease-in-out forwards;
+}
+
+@keyframes fadeInAnim {
+       0% {opacity: 0;}
+       100% {opacity: 1;}
+}
+
+.fadeOut {
+       will-change: opacity;
+       animation: fadeOutAnim var(--animationDuration) ease-in-out forwards;
+}
+
+@keyframes fadeOutAnim {
+       0% {opacity: 1;}
+       100% {opacity: 0;}
+}
