@@ -9,7 +9,7 @@ class Task {
        }
 
        toggle() {
-              if (this.completed) {
+              if (this.taskData.completed) {
                      this.taskData.completed = false;
                      this.elem.classList.remove("check");
               }

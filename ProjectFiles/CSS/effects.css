@@ -17,3 +17,8 @@
        0% {opacity: 1;}
        100% {opacity: 0;}
 }
+
+.background {
+       pointer-events: none;
+       filter: blur(var(--blurValue));
+}

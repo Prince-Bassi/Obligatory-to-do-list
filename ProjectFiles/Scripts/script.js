@@ -1,24 +1,15 @@
 import TaskManager from "./taskManager.js";
+import CreatePopUp from "./createPopUp.js";
 import ScreenManager from "./screenManager.js";
 
 const taskList = document.querySelector(".taskBody .taskList");
 const createButton = document.querySelector("header .create");
-const closeTaskButton = document.querySelector("header .closeTask");
+const closeTaskButton = document.querySelector(".closeTask");
 const emptyList = document.querySelector(".taskBody .empty");
 const checkmarks = document.querySelectorAll(".taskBody .taskList .task .checkmark");
 const taskInfo = document.querySelectorAll(".taskBody .taskList .task .taskInfo");
 const taskDetails = document.querySelector(".taskBody .taskDetails");
 const screens = {"taskList": taskList, "emptyList": emptyList, "taskDetails": taskDetails};
-
-function taskToggle(task) {
-       task.classList.toggle("check");
-}
-
-checkmarks.forEach(elem => {
-       elem.addEventListener("click", () => {
-              taskToggle(elem.parentNode);
-       });
-});
 
 const screenManager = new ScreenManager(screens);
 const taskManager = new TaskManager(screenManager, taskList);
@@ -38,6 +29,16 @@ taskInfo.forEach(elem => {
 
 closeTaskButton.addEventListener("click", () => {
        screenManager.changeTo(screenManager.previousScreen.name);
+
        createButton.classList.remove("hidden");
        closeTaskButton.classList.remove("active");
+});
+
+document.addEventListener("keypress", (event) => {
+       if (event.key === "k") {
+              CreatePopUp.open();
+       }
+       if (event.key === "p") {
+              CreatePopUp.close();
+       }
 });

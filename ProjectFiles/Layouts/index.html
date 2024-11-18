@@ -9,22 +9,37 @@
               <link rel="stylesheet" href="/CSS/emptyScreen.css" />
               <link rel="stylesheet" href="/CSS/taskScreen.css" />
               <link rel="stylesheet" href="/CSS/detailsScreen.css" />
-              <link rel="stylesheet" href="/CSS/animations.css" />
+              <link rel="stylesheet" href="/CSS/effects.css" />
+              <link rel="stylesheet" href="/CSS/createPopUp.css" />
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
        </head>
        <body>
-              <!-- <div class="createPopUp">
-                     <form>
-                            <label for="titleInput">Task Title: </label>
-                            <input type="text" id="titleInput" name="titleInput" placeholder="Title..." />
+              <form>
+                     <div class="createPopUp">
+                            <h2 class="createHeading">Create a new Task</h2>
+                            <div class="createBody">
+                                   <div class="inputRow">
+                                          <label for="titleInput">Task Title: </label>
+                                          <input type="text" id="titleInput" name="titleInput" placeholder="Title..." />
+                                   </div>
 
-                            <label for="descInput">Description: </label>
-                            <textarea id="descInput" placeholder="Description..."></textarea>
+                                   <div class="inputRow">
+                                          <label for="descInput">Description: </label>
+                                          <textarea id="descInput" placeholder="Description..."></textarea>
+                                   </div>
 
-                            <label for="deadlineInput">Deadline: </label>
-                            <input type="date" id="deadlineInput" />
-                     </form>
-              </div> -->
+                                   <div class="inputRow">
+                                          <label for="deadlineInput">Deadline: </label>
+                                          <input type="date" id="deadlineInput" />
+                                   </div>
+
+                                   <div class="buttons">
+                                          <input type="submit" value="Submit" id="submitButton" />
+                                          <input type="button" value="Cancel" id="cancelButton" />
+                                   </div>
+                            </div>
+                     </div> 
+              </form>
               <header>
                      <h1>To-do List</h1>
                      <button class="create"><i class="fa fa-plus"></i>Create</button>

@@ -16,6 +16,21 @@ class UIManager {
               this.addAnimationClass(elem, "fadeOut", duration);
        }
 
+       /** 
+        * @param {HTMLElement} elem
+        * @param {String} blurValue
+        * @param {Number} duration
+       */
+       static background(elem, remove = false, blurValue, duration = 1) {
+              if (remove) {
+                     elem.classList.remove("background");
+                     return;
+              }
+              elem.style.setProperty("--blurValue", blurValue);
+              elem.style.transition = `filter ${duration}s`;
+              elem.classList.add("background");
+       }
+
        static translate() {
 
        }
