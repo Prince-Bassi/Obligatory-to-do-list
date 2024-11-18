@@ -8,12 +8,19 @@ class TaskManager {
               this.taskList = taskList;
 
               this.taskList.addEventListener("click", (event) => {
-                     const taskObj = Object.values(this.tasks).filter(task => task.elem.querySelector(".taskInfo") === event.target.closest(".taskInfo"));
+                     let taskObj = Object.values(this.tasks).filter(task => task.elem.querySelector(".checkmark") === event.target.closest(".checkmark"));
+                     if (taskObj.length === 1) {
+                            taskObj[0].toggle();
+                            return;
+                     }
+
+                     taskObj = Object.values(this.tasks).filter(task => task.elem.querySelector(".taskInfo") === event.target.closest(".taskInfo"));
                      if (taskObj.length === 1) {
                             this.openTaskDetails(taskObj[0]);
                      }
               });
               this.displayTasks();
+
        }
 
        displayTasks() {
@@ -22,22 +29,28 @@ class TaskManager {
               })
               .then(response => response.json())
               .then (data => {
+                     
                      if (!data.length) {
                             this.screenManager.changeTo("emptyList");
                             return;
                      }
 
+                     const promiseArr = [];
                      for (let taskData of data) {
-                            const taskObj = new Task(Components.createTask(taskData), taskData, this);
-                            if (!this.tasks[taskObj.id]) this.tasks[taskObj.id] = taskObj;
-                            
+                            const promise = new Promise((resolve, reject) => {
+                                   const taskObj = new Task(Components.createTask(taskData), taskData, this);
+                                   if (!this.tasks[taskObj.id]) {
+                                          this.tasks[taskObj.id] = taskObj;
+                                          this.taskList.appendChild(taskObj.elem);
+                                          resolve();
+                                   }
+                            });
+                            promiseArr.push(promise);
                      }
                      
-                     for (let taskId in this.tasks) {
-                            this.taskList.appendChild(this.tasks[taskId].elem);
-                     }
-                     
-                     if (this.screenManager.activeScreen.name !== "taskList") this.screenManager.changeTo("taskList");
+                     Promise.all(promiseArr).then(() => {
+                            if (this.screenManager.activeScreen.name !== "taskList") this.screenManager.changeTo("taskList");
+                     });
               })
               .catch(err => {console.error(err)});
        }
