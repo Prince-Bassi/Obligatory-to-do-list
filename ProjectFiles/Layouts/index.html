@@ -14,28 +14,28 @@
               <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
        </head>
        <body>
-              <form>
+              <form class="createForm">
                      <div class="createPopUp">
                             <h2 class="createHeading">Create a new Task</h2>
                             <div class="createBody">
                                    <div class="inputRow">
-                                          <label for="titleInput">Task Title: </label>
-                                          <input type="text" id="titleInput" name="titleInput" placeholder="Title..." />
+                                          <label for="titleInput">Task Title*: </label>
+                                          <input type="text" id="titleInput" name="title" placeholder="Title..." required/>
                                    </div>
 
                                    <div class="inputRow">
-                                          <label for="descInput">Description: </label>
-                                          <textarea id="descInput" placeholder="Description..."></textarea>
+                                          <label for="descInput">Description*: </label>
+                                          <textarea id="descInput" name="desc" placeholder="Description..." required></textarea>
                                    </div>
 
                                    <div class="inputRow">
-                                          <label for="deadlineInput">Deadline: </label>
-                                          <input type="date" id="deadlineInput" />
+                                          <label for="deadlineInput">Deadline*: </label>
+                                          <input type="date" name="deadline" id="deadlineInput" required/>
                                    </div>
 
                                    <div class="buttons">
-                                          <input type="submit" value="Submit" id="submitButton" />
-                                          <input type="button" value="Cancel" id="cancelButton" />
+                                          <input type="submit" value="Submit" name="sibmit" id="submitButton" />
+                                          <button type="button" id="cancel">Cancel</button>
                                    </div>
                             </div>
                      </div> 

@@ -73,6 +73,11 @@
        border-radius: 15px;
        outline: none;
        font-size: 15px;
+       transition: border 0.4s;
+}
+
+.createBody input[type=text]:focus, .createBody textarea:focus, .createBody input[type=date]:focus {
+       border-color: var(--primaryColor);
 }
 
 .createBody label[for="descInput"] {
@@ -88,6 +93,7 @@
        border-radius: 15px;
        outline: none;
        font-size: 15px;
+       transition: border 0.4s;
 }
 
 .createBody input[type=date] {
@@ -96,7 +102,8 @@
        font-size: 15px;
        width: calc(100% - 240px);
        border: 2px solid var(--checkedColor);
-       color: var(--checkedColor);
+       outline: none;
+       transition: border 0.4s;
 }
 
 .createBody .buttons {
@@ -124,7 +131,7 @@
        color: white;
 }
 
-.createBody .buttons #cancelButton {
+.createBody .buttons #cancel {
        border: none;
        background: white;
        border-radius: 8px;
@@ -133,6 +140,6 @@
        cursor: pointer;
 }
 
-.createBody .buttons #cancelButton:hover {
+.createBody .buttons #cancel:hover {
        background: rgb(200, 200, 200);
 }

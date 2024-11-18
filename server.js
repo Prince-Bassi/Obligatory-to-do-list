@@ -3,6 +3,7 @@ const path = require("path");
 const app = express();
 const PORT = 8080;
 const mysql = require("mysql");
+const { log } = require("console");
 
 const db = mysql.createConnection({
        host: "localhost",
@@ -11,17 +12,17 @@ const db = mysql.createConnection({
        database: "ToDoList"
 });
 
-// db.query("INSERT INTO tasks (title, description, deadline) VALUES ('Complete Project', 'Finish coding the task manager and add features like a to-do list, task description, and due dates.', '2024-12-31');");
-
 app.use(express.static(path.join(__dirname, 'ProjectFiles')));
+app.use(express.urlencoded({extended: true}))
+app.use(express.json());
 
 app.get("/", (req, res) => {
        res.sendFile(path.join(__dirname, 'ProjectFiles/Layouts', 'index.html'));
 });
 
 function returnTaskList(req, res, next) {
-       db.query("select * from tasks;", (err, result, fields) => {
-              if (err) next(new Error(err.message));
+       db.query("select * from tasks;", (err, result) => {
+              if (err) next(err);
 
               res.status(200).json(result);
        });
@@ -29,6 +30,21 @@ function returnTaskList(req, res, next) {
 
 app.get("/getTasks", (req, res, next) => {
        returnTaskList(req, res, next);
+});
+
+app.post("/addTask", (req, res, next) => {
+       const taskData = req.body;
+
+       if (taskData.title && taskData.desc && taskData.deadline) {
+              db.query(`INSERT INTO tasks (title, description, deadline) VALUES ('${taskData.title}', '${taskData.desc}', '${taskData.deadline}');`, (err, result) => {
+                     if (err) next(err)
+                     
+                     res.status(200).send("Task created");
+              });
+       }
+       else {
+              next(new Error("Incomplete data received"));
+       }
 });
 
 app.use((err, req, res, next) => {
