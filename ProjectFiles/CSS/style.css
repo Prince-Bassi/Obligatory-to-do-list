@@ -11,16 +11,15 @@
 
 body {
        margin: 0;
-       overflow-x: hidden;
+       overflow: hidden;
 }
 
-.taskBody .taskList .decorLine, .taskBody .taskDetails .decorLine {
+.taskBody .taskList .decorLine {
        background: var(--primaryColor);
-       height: calc(100% - var(--headerHeight));
+       height: 1000px;
        width: 3px;
        position: fixed;
        left: var(--leftIndent);
-       top: var(--headerHeight);
 }
 
 .taskBody > :not(.active) {
