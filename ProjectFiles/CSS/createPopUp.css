@@ -1,16 +1,15 @@
+/* --------------------CREATE POP UP-------------------- */
+
 .createPopUp {
-       position: absolute;
        left: 50%;
        top: 50%;
 
-       display: grid;
        grid-template-rows: 15% 85%;
        grid-template-columns: auto;
 
        width: 700px;
        height: 600px;
        border-radius: 20px;
-       background: white;
        z-index: 6;
        box-shadow: 2px 2px 5px rgba(0,0,0,0.3), -2px -2px 5px rgba(0,0,0,0.3);
 
@@ -30,22 +29,18 @@
        transform: scale(1) translate(-50%, -50%);
 }
 
-.createPopUp.active ~ header {
-       filter: blur(100%);
-}
+/* --------------------CREATE HEADING-------------------- */
 
 .createHeading {
-       display: flex;
        align-items: center;
-       justify-content: center;
        border-bottom: 2px solid var(--primaryColor);
-       color: var(--primaryColor);
        margin: 0;
        font-size: 30px;
 }
 
+/* --------------------CREATE BODY-------------------- */
+
 .createBody {
-       display: flex;
        flex-flow: column nowrap;
        padding: 20px;
 }
@@ -56,58 +51,20 @@
        position: relative;
 }
 
-.createBody label {
-       position: absolute;
-       top: 2px;
-       font-weight: bold;
-}
+/* --------------------FORM INPUTS-------------------- */
 
-.inputRow > input, .inputRow > textarea {
-       margin-left: 200px;
-}
+.createBody label {top: 2px;}
 
-.createBody input[type=text] {
-       width: calc(100% - 240px);
-       border: 2px solid var(--checkedColor);
-       padding: 10px 5px;
-       border-radius: 15px;
-       outline: none;
-       font-size: 15px;
-       transition: border 0.4s;
-}
-
-.createBody input[type=text]:focus, .createBody textarea:focus, .createBody input[type=date]:focus {
-       border-color: var(--primaryColor);
-}
-
-.createBody label[for="descInput"] {
-       justify-content: center;
-}
+.inputRow > input, .inputRow > textarea {margin-left: 200px;}
 
 .createBody textarea {
-       width: calc(100% - 240px);
        height: 100px;
        resize: none;
-       border: 2px solid var(--checkedColor);
-       padding: 10px 5px;
-       border-radius: 15px;
-       outline: none;
-       font-size: 15px;
-       transition: border 0.4s;
 }
 
-.createBody input[type=date] {
-       padding: 10px 5px;
-       border-radius: 15px;
-       font-size: 15px;
-       width: calc(100% - 240px);
-       border: 2px solid var(--checkedColor);
-       outline: none;
-       transition: border 0.4s;
-}
+/* --------------------FORM BUTTONS-------------------- */
 
 .createBody .buttons {
-       display: grid;
        grid-template-columns: auto auto;
        grid-template-rows: auto;
        grid-gap: 50px;
@@ -115,31 +72,53 @@
        margin: auto 20px 20px 20px;
 }
 
-.createBody .buttons #submitButton {
+#submitButton {
        padding: 7px 7px;
-       background: white;
-       color: var(--primaryColor);
-       border-radius: 8px;
        border: 2px solid var(--primaryColor);
-       transition: 0.4s;
-       font-weight: bold;
-       cursor: pointer;
 }
 
-.createBody .buttons #submitButton:hover {
+#submitButton:hover {
        background: var(--primaryColor);
        color: white;
 }
 
-.createBody .buttons #cancel {
+#cancel {
        border: none;
-       background: white;
-       border-radius: 8px;
        color: red;
-       transition: 0.4s;
-       cursor: pointer;
 }
 
-.createBody .buttons #cancel:hover {
-       background: rgb(200, 200, 200);
+#cancel:hover {background: rgb(200, 200, 200);}
+
+/* --------------------COMMON-------------------- */
+
+.createPopUp, .createBody label {position: absolute;}
+
+.createPopUp, .createBody .buttons {display: grid;}
+
+.createPopUp, #submitButton, #cancel {background: white;}
+
+.createHeading, .createBody {display: flex;}
+
+.createHeading, label[for="descInput"] {justify-content: center;}
+
+.createHeading, #submitButton {color: var(--primaryColor);}
+
+.createBody label, #submitButton {font-weight: bold;}
+
+.createBody input[type=text], .createBody textarea, .createBody input[type=date] {
+       width: calc(100% - 240px);
+       border: 2px solid var(--checkedColor);
+       padding: 10px 5px;
+       border-radius: 15px;
+       outline: none;
+       font-size: 15px;
+       transition: border 0.4s;
+}
+
+.createBody input[type=text]:focus, .createBody textarea:focus, .createBody input[type=date]:focus {border-color: var(--primaryColor);}
+
+#submitButton, #cancel {
+       border-radius: 8px;
+       transition: 0.4s;
+       cursor: pointer;
 }
