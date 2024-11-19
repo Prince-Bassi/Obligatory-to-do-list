@@ -51,6 +51,21 @@
        position: relative;
 }
 
+
+.createBody .errorMessage {
+       padding: 20px;
+       border: 2px solid red;
+       color: red;
+       opacity: 0;
+       height: 0;
+       font-weight: bold;
+}
+
+.createBody .errorMessage.active {
+       opacity: 1;
+       height: fit-content;
+}
+
 /* --------------------FORM INPUTS-------------------- */
 
 .createBody label {top: 2px;}

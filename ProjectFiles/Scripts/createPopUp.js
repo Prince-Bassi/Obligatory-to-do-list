@@ -1,9 +1,11 @@
 import UIManager from "./UIManager.js";
+import taskManager from "./taskManager.js"
 
 const createPopUpElem = document.querySelector(".createPopUp");
 const header = document.querySelector("header");
 const section = document.querySelector("section");
 const createForm = document.querySelector(".createForm");
+const errorMessage = document.querySelector(".createBody .errorMessage");
 
 class CreatePopUp {
        constructor() {
@@ -13,6 +15,17 @@ class CreatePopUp {
                      event.preventDefault();
 
                      const formData = new FormData(event.target);
+
+                     const deadline = new Date(formData.get("deadline"));
+                     const today = new Date();
+                     
+                     if (deadline < today) {
+                            errorMessage.textContent = `Deadline cannot be before today (${today.toISOString().split("T")[0]})`;
+                            errorMessage.classList.add("active");
+                            return;
+                     }
+                     
+
                      const data = Object.fromEntries(formData.entries());
 
                      fetch("/addTask", {
@@ -26,6 +39,9 @@ class CreatePopUp {
                      .then(data => {
                             console.log(data);
                             this.close();
+                            taskManager.displayTasks();
+                            errorMessage.textContent = "";
+                            errorMessage.classList.remove("active");
                             createForm.reset();
                      });
               });
