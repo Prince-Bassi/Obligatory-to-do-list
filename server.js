@@ -1,15 +1,16 @@
+require("dotenv").config();
+
 const express = require("express");
 const path = require("path");
 const app = express();
 const PORT = 8080;
 const mysql = require("mysql");
-const { log } = require("console");
 
 const db = mysql.createConnection({
-       host: "localhost",
-       user: "Prince",
-       password: "Shal@1313",
-       database: "ToDoList"
+       host: process.env.DB_HOST,
+       user: process.env.DB_USER,
+       password: process.env.DB_PASSWORD,
+       database: process.env.DB_NAME
 });
 
 app.use(express.static(path.join(__dirname, 'ProjectFiles')));
@@ -54,7 +55,7 @@ app.delete("/deleteTask", (req, res, next) => {
               });
        }
        else {
-              next(new Error("Invalid ID"))
+              next(new Error("Null ID Found"));
        }
 });
 
