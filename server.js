@@ -20,23 +20,19 @@ app.get("/", (req, res) => {
        res.sendFile(path.join(__dirname, 'ProjectFiles/Layouts', 'index.html'));
 });
 
-function returnTaskList(req, res, next) {
+app.get("/getTasks", (req, res, next) => {
        db.query("select * from tasks;", (err, result) => {
               if (err) next(err);
-
+              
               res.status(200).json(result);
        });
-}
-
-app.get("/getTasks", (req, res, next) => {
-       returnTaskList(req, res, next);
 });
 
 app.post("/addTask", (req, res, next) => {
        const taskData = req.body;
 
        if (taskData.title && taskData.desc && taskData.deadline) {
-              db.query(`INSERT INTO tasks (title, description, deadline) VALUES ('${taskData.title}', '${taskData.desc}', '${taskData.deadline}');`, (err, result) => {
+              db.query(`INSERT INTO tasks (title, description, deadline) VALUES (?, ?, ?);`, [taskData.title, taskData.desc, taskData.deadline], (err, result) => {
                      if (err) next(err)
                      
                      res.status(200).send("Task created");
@@ -44,6 +40,21 @@ app.post("/addTask", (req, res, next) => {
        }
        else {
               next(new Error("Incomplete data received"));
+       }
+});
+
+app.delete("/deleteTask", (req, res, next) => {
+       const taskId = req.body.id;
+
+       if (taskId) {
+              db.query("DELETE FROM tasks WHERE id = ?;", [taskId], (err, result) => {
+                     if (err) next(err);
+
+                     res.status(200).send(`Task ${taskId} Deleted`);
+              });
+       }
+       else {
+              next(new Error("Invalid ID"))
        }
 });
 

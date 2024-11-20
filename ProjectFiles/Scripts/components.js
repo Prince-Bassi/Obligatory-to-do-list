@@ -1,5 +1,6 @@
-function createComponent(tag, classes = [], children = []) {
+function createComponent(tag, classes = [], children = [], text = "") {
        const elem = document.createElement(tag);
+       elem.textContent = text;
        if (children) {
               for (let child of children) {
                      elem.appendChild(child);
@@ -20,15 +21,26 @@ const Components = {
 
               const taskTitle = createComponent("div", ["taskTitle"], [
                      createComponent("div", ["lineThrough"])
-              ]);
-              taskTitle.textContent = taskData.title;
+              ], taskData.title);
 
-              const deadline = createComponent("div", ["deadline"]);
-              deadline.textContent = taskData.deadline;
+              const deadlineValue = new Date(taskData.deadline);
+              const deadline = createComponent("div", ["deadline"], [], `Deadline: ${deadlineValue.getDate()} ${deadlineValue.toLocaleString("en", {month: "short"})} ${deadlineValue.getFullYear()}`);
+
+              // Options elem
+              const optionMenu = createComponent("div", ["optionsMenu"], [
+                     createComponent("div", ["deleteButton"], [], "Delete"),
+                     createComponent("div", ["editButton"], [], "Edit")
+              ]);
+              const options = createComponent("div", ["options"], [
+                     createComponent("i", ["fa-solid", "fa-ellipsis-v"]),
+                     optionMenu
+              ]);
 
               const taskInfo = createComponent("div", ["taskInfo"], [
                      taskTitle,
-                     deadline
+                     deadline,
+                     options
+
               ]);
 
               const task = createComponent("div", ["task"], [

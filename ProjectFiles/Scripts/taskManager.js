@@ -1,5 +1,8 @@
 import Task from "./task.js";
 import Components from "./components.js";
+import screenManager from "./screenManager.js";
+
+const taskList = document.querySelector(".taskBody .taskList");
 
 class TaskManager {
        constructor(screenManager, taskList) {
@@ -14,13 +17,17 @@ class TaskManager {
                             return;
                      }
 
+                     taskObj = Object.values(this.tasks).filter(task => task.elem.querySelector(".deleteButton") === event.target.closest(".deleteButton"));
+                     if (taskObj.length === 1) {
+                            taskObj[0].delete();
+                            return;
+                     }
+
                      taskObj = Object.values(this.tasks).filter(task => task.elem.querySelector(".taskInfo") === event.target.closest(".taskInfo"));
                      if (taskObj.length === 1) {
                             this.openTaskDetails(taskObj[0]);
                      }
               });
-              this.displayTasks();
-
        }
 
        displayTasks() {
@@ -29,28 +36,29 @@ class TaskManager {
               })
               .then(response => response.json())
               .then (data => {
-                     
                      if (!data.length) {
                             this.screenManager.changeTo("emptyList");
                             return;
                      }
+                     const currentTaskIDs = new Set(Object.keys(this.tasks));
+                     const newTaskIDs = new Set(data.map(taskData => taskData.id));
 
-                     const promiseArr = [];
-                     for (let taskData of data) {
-                            const promise = new Promise((resolve, reject) => {
-                                   const taskObj = new Task(Components.createTask(taskData), taskData, this);
-                                   if (!this.tasks[taskObj.id]) {
-                                          this.tasks[taskObj.id] = taskObj;
-                                          this.taskList.appendChild(taskObj.elem);
-                                          resolve();
-                                   }
-                            });
-                            promiseArr.push(promise);
+                     for (let id of currentTaskIDs) {
+                            if (!newTaskIDs.has(+id)) {
+                                   this.tasks[id].elem.remove();
+                                   delete this.tasks[id];
+                            }
                      }
-                     
-                     Promise.all(promiseArr).then(() => {
-                            if (this.screenManager.activeScreen.name !== "taskList") this.screenManager.changeTo("taskList");
-                     });
+
+                     for (let taskData of data) {
+                            const taskObj = new Task(Components.createTask(taskData), taskData, this);
+                            if (!this.tasks[taskObj.id]) {
+                                   this.tasks[taskObj.id] = taskObj;
+                                   this.taskList.appendChild(taskObj.elem);       
+                            }
+                     }
+       
+                     if (this.screenManager.activeScreen.name !== "taskList") this.screenManager.changeTo("taskList");
               })
               .catch(err => {console.error(err)});
        }
@@ -72,4 +80,6 @@ class TaskManager {
        }
 }
 
-export default TaskManager;
+const taskManager = new TaskManager(screenManager, taskList);
+
+export default taskManager;

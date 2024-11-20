@@ -1,3 +1,5 @@
+import taskManager from "./taskManager.js";
+
 class Task {
        constructor(elem, taskData, taskManager) {
               this.initialTaskData = taskData;
@@ -17,6 +19,23 @@ class Task {
                      this.taskData.completed = true;
                      this.elem.classList.add("check");
               }
+       }
+
+       delete() {
+              fetch("/deleteTask", {
+                     method: "DELETE",
+                     headers: {
+                            "Content-Type": "application/json"
+                     },
+                     body: JSON.stringify({id: this.id})
+              })
+              .then(response => response.text())
+              .then(data => {
+                     console.log(data);
+                     
+                     taskManager.displayTasks();
+              })
+              .catch(err => console.error(err));
        }
 }
 
