@@ -85,6 +85,35 @@ class TaskManager {
 
               this.screenManager.changeTo("taskDetails");
        }
+
+       updateTaskData() {
+              const data = {};
+              for (let [taskId, taskObj] of Object.entries(this.tasks)) {
+                     const updateData = taskObj.checkForUpdate();
+                     
+                     if (!Object.keys(updateData).length) {
+                            continue;
+                     }
+                     
+                     taskObj.initialTaskData = taskObj.taskData;
+                     data[taskId] = updateData;                     
+              }
+
+              if (Object.keys(data).length) {
+                     fetch("/updateTask", {
+                            method: "PATCH",
+                            headers: {
+                                   "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(data)
+                     })
+                     .then(response => response.text())
+                     .then(resData => {
+                            console.log(resData);
+                     })
+                     .catch(err => alert(err.message));
+              }
+       }
 }
 
 const taskManager = new TaskManager(screenManager, taskList);

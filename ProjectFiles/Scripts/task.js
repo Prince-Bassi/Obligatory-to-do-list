@@ -3,12 +3,16 @@ import messagePopUp from "./messagePopUp.js";
 
 class Task {
        constructor(elem, taskData, taskManager) {
-              this.initialTaskData = taskData;
+              this.initialTaskData = JSON.parse(JSON.stringify(taskData)); //Make a deep copy
               this.taskData = taskData;
               this.id = this.taskData.id;
 
               this.taskManager = taskManager;
               this.elem = elem;
+
+              if (this.taskData.completed) {
+                     this.elem.classList.add("check");
+              }
        }
 
        toggle() {
@@ -36,6 +40,19 @@ class Task {
                      messagePopUp.show("Task Deleted Successfully", 3000);
               })
               .catch(err => console.error(err));
+       }
+
+       checkForUpdate() {
+              const updateData = {};
+
+              for (let field in this.taskData) {
+                     if (this.taskData[field] !== this.initialTaskData[field]) {                     
+                            updateData[field] = this.taskData[field];
+                     }
+              }
+              
+
+              return updateData;
        }
 }
 

@@ -1,16 +1,11 @@
-import TaskManager from "./taskManager.js";
+import taskManager from "./taskManager.js";
 import CreatePopUp from "./createPopUp.js";
-import ScreenManager from "./screenManager.js";
+import screenManager from "./screenManager.js";
 
-const taskList = document.querySelector(".taskBody .taskList");
 const createButton = document.querySelector("header .create");
 const closeTaskButton = document.querySelector(".closeTask");
-const emptyList = document.querySelector(".taskBody .empty");
-const taskDetails = document.querySelector(".taskBody .taskDetails");
-const screens = {"taskList": taskList, "emptyList": emptyList, "taskDetails": taskDetails};
 
-const screenManager = new ScreenManager(screens);
-const taskManager = new TaskManager(screenManager, taskList);
+taskManager.displayTasks();
 
 closeTaskButton.addEventListener("click", () => {
        screenManager.changeTo(screenManager.previousScreen.name);
@@ -23,3 +18,10 @@ createButton.addEventListener("click", () => {
        CreatePopUp.open();
 });
 
+const autosaveInterval = setInterval(() => {
+       taskManager.updateTaskData();
+}, 30000);
+
+window.addEventListener("beforeunload", () => {
+       taskManager.updateTaskData();
+});
