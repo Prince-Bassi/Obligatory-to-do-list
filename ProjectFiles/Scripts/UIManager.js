@@ -17,11 +17,12 @@ class UIManager {
        }
 
        /** 
-        * @param {HTMLElement} elem
+        * @param {String} elem
         * @param {String} blurValue
         * @param {Number} duration
        */
-       static background(elem, remove = false, blurValue, duration = 1) {
+       static background(selector, remove = false, blurValue, duration = 1) {
+              const elem = document.querySelector(selector);
               if (remove) {
                      elem.classList.remove("background");
                      return;

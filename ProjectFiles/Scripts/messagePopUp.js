@@ -4,7 +4,7 @@ class MessagePopUp {
        constructor(elem) {
               this.elem = elem;
 
-              this.elem.addEventListener("transitioned", () => {
+              this.elem.addEventListener("transitionend", () => {
                      if (!this.elem.classList.contains("active")) {
                             this.elem.textContent = "";
                      }

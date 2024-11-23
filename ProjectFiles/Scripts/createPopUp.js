@@ -3,8 +3,6 @@ import taskManager from "./taskManager.js"
 import messagePopUp from "./messagePopUp.js";
 
 const createPopUpElem = document.querySelector(".createPopUp");
-const header = document.querySelector("header");
-const section = document.querySelector("section");
 const createForm = document.querySelector(".createForm");
 const errorMessage = document.querySelector(".createBody .errorMessage");
 
@@ -62,14 +60,14 @@ class CreatePopUp {
                      this.cancelEvent = document.addEventListener("click", this.boundCloseLogic);
               }, 100);
 
-              UIManager.background(header, false, "2px", 0.3);
-              UIManager.background(section, false, "2px", 0.3);
+              UIManager.background("header", false, "2px", 0.3);
+              UIManager.background("section", false, "2px", 0.3);
        }
 
        close() {
               createPopUpElem.classList.remove("active");
-              UIManager.background(header, true);
-              UIManager.background(section, true);
+              UIManager.background("header", true);
+              UIManager.background("section", true);
               document.removeEventListener("click", this.boundCloseLogic);
               createForm.reset();
        }

@@ -1,6 +1,7 @@
 import Task from "./task.js";
 import Components from "./components.js";
 import screenManager from "./screenManager.js";
+import confirmBox from "./confirmBox.js";
 
 const taskList = document.querySelector(".taskBody .taskList");
 
@@ -19,8 +20,14 @@ class TaskManager {
 
                      taskObj = Object.values(this.tasks).filter(task => task.elem.querySelector(".deleteButton") === event.target.closest(".deleteButton"));
                      if (taskObj.length === 1) {
-                            taskObj[0].delete();
+                            confirmBox.confirmation("Are you sure you want to delete this task?", () => taskObj[0].delete());
                             return;
+                     }
+
+                     taskObj = Object.values(this.tasks).filter(task => task.elem.querySelector(".options") === event.target.closest(".options"));
+                     if (taskObj.length === 1) {
+                            return;
+                            //Just so a click on the options menu doesnt trigger openTaskDetails function
                      }
 
                      taskObj = Object.values(this.tasks).filter(task => task.elem.querySelector(".taskInfo") === event.target.closest(".taskInfo"));

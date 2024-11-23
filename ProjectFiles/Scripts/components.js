@@ -12,6 +12,24 @@ function createComponent(tag, classes = [], children = [], text = "") {
 }
 
 const Components = {
+       createConfirmationBox() {
+              const message = createComponent("div", ["message"]);
+              const confirmButton = createComponent("button", ["confirmButton"], [], "Confirm");
+              const cancelButton = createComponent("button", ["cancel"], [], "Cancel");
+
+              const buttons = createComponent("div", ["buttons"], [
+                     confirmButton,
+                     cancelButton
+              ]);
+
+              const confirmBox = createComponent("div", ["confirmBox"], [
+                     message,
+                     buttons
+              ]);
+
+              return confirmBox;
+       },
+
        createTask(taskData) {
               const checkmark = createComponent("div", ["checkmark"], [
                      createComponent("i", ["fa", "fa-check"]),
