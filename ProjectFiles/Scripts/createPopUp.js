@@ -1,5 +1,6 @@
 import UIManager from "./UIManager.js";
 import taskManager from "./taskManager.js"
+import messagePopUp from "./messagePopUp.js";
 
 const createPopUpElem = document.querySelector(".createPopUp");
 const header = document.querySelector("header");
@@ -13,7 +14,8 @@ class CreatePopUp {
 
               createForm.addEventListener("submit", (event) => {
                      event.preventDefault();
-
+                     createForm.querySelector("input[type=submit]").disabled = true;
+                     
                      const formData = new FormData(event.target);
 
                      const deadline = new Date(formData.get("deadline"));
@@ -27,7 +29,7 @@ class CreatePopUp {
                      
 
                      const data = Object.fromEntries(formData.entries());
-
+                     
                      fetch("/addTask", {
                             method:"POST",
                             headers: {
@@ -37,12 +39,15 @@ class CreatePopUp {
                      })
                      .then(response => response.text())
                      .then(data => {
-                            console.log(data);
                             this.close();
                             taskManager.displayTasks();
+                            messagePopUp.show("Task Created Successfully", 3000);
+       
                             errorMessage.textContent = "";
                             errorMessage.classList.remove("active");
+
                             createForm.reset();
+                            createForm.querySelector("input[type=submit]").disabled = false;
                      });
               });
        }

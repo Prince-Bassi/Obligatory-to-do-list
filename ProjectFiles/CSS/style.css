@@ -14,6 +14,26 @@ body {
        overflow: hidden;
 }
 
+.messagePopUp {
+       position: absolute;
+       left: 50%;
+       transform: translate(-50%, -100%);
+
+       padding: 8px 15px;
+       background: white;
+       color: var(--primaryColor);
+       font-weight: bold;
+       border-radius: 15px;
+       border: 2px solid var(--primaryColor);
+       z-index: 7;
+
+       transition: transform 0.2s ease-in;
+}
+
+.messagePopUp.active {
+       transform: translate(-50%, 15%);
+}
+
 .taskBody .taskList .decorLine {
        background: var(--primaryColor);
        height: 1000px;

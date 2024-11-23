@@ -1,4 +1,5 @@
 import taskManager from "./taskManager.js";
+import messagePopUp from "./messagePopUp.js";
 
 class Task {
        constructor(elem, taskData, taskManager) {
@@ -30,10 +31,9 @@ class Task {
                      body: JSON.stringify({id: this.id})
               })
               .then(response => response.text())
-              .then(data => {
-                     console.log(data);
-                     
+              .then(data => {                     
                      taskManager.displayTasks();
+                     messagePopUp.show("Task Deleted Successfully", 3000);
               })
               .catch(err => console.error(err));
        }
