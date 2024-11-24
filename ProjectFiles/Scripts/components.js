@@ -31,12 +31,17 @@ const Components = {
        },
 
        createTask(taskData) {
-              const checkmark = createComponent("div", ["checkmark"], [
-                     createComponent("i", ["fa", "fa-check"]),
-                     createComponent("div", ["checkOverlay"]),
-                     createComponent("div", ["innerCircle"])
-              ]);
+              //Checkmark
+              const checkPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+              checkPath.setAttribute("d", "M6 15 L12 20 L21 10");
 
+              const checkmark = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+              checkmark.classList.add("checkmark");
+
+              checkmark.appendChild(document.createElementNS("http://www.w3.org/2000/svg", "circle"));
+              checkmark.appendChild(checkPath);
+
+              //Task info
               const taskTitle = createComponent("div", ["taskTitle"], [
                      createComponent("div", ["lineThrough"])
               ], taskData.title);

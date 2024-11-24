@@ -18,10 +18,12 @@ class Task {
        toggle() {
               if (this.taskData.completed) {
                      this.taskData.completed = false;
+                     this.elem.style.setProperty("--checkDelay", "0");
                      this.elem.classList.remove("check");
               }
               else {
                      this.taskData.completed = true;
+                     this.elem.style.setProperty("--checkDelay", "0.5s");
                      this.elem.classList.add("check");
               }
        }

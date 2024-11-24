@@ -111,7 +111,7 @@ class TaskManager {
                      .then(resData => {
                             console.log(resData);
                      })
-                     .catch(err => alert(err.message));
+                     .catch(err => console.error(err));
               }
        }
 }

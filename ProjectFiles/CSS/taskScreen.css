@@ -113,39 +113,39 @@
        --size: 28px;
        --transitionTime: 0.5s;
 
-       align-items: center;
-       justify-content: center;
-       left: -14px;
-       transform: translateY(-50%);
        width: var(--size);
        height: var(--size);
-       background: var(--secondaryColor);
+       left: -14px;
+       transform: translateY(-50%);
+
+       border-radius: 100%;
        overflow: hidden;
 }
 
-.checkmark .innerCircle {
-       width: calc(var(--size) - 8px);
-       height: calc(var(--size) - 8px);
-       background: white;
-       z-index: 1;
+.checkmark circle {
+       cx: 50%;
+       cy: 50%;
+       r: calc(var(--size) / 2);
+       stroke: var(--secondaryColor);
+       fill: white;
+       stroke-width: 8px;
+       
+       transition: stroke-width var(--transitionTime);
 }
 
-.checkmark .checkOverlay {
-       width: inherit;
-       height: inherit;
-       background: inherit;
+.task.check .checkmark circle {stroke-width: 100%;}
+
+.checkmark path {
+       stroke: white;
+       stroke-width: 4px;
+       fill: none;
+       stroke-dasharray: 36;
+       stroke-dashoffset: 36;
+       stroke-linecap: round;
+       transition: stroke-dashoffset var(--transitionTime) var(--checkDelay);
 }
 
-.checkmark i {color: white; font-size: 20px;}
-
-.task.check .innerCircle {transform: scale(0, 0);}
-
-.task.check .checkOverlay {animation: checkOverlayAnim 0.3s ease-out 0.5s forwards;}
-
-@keyframes checkOverlayAnim {
-       0% {transform: translateX(0);}
-       100% {transform: translateX(100%);}
-}
+.task.check .checkmark path {stroke-dashoffset: 0;}
 
 /* ----------------------TASK TITLE---------------------- */
 
